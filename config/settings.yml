@@ -1,0 +1,20 @@
+plugins:
+  solved_reminders_plugin_enabled:
+    default: false
+    client: true
+  remind_mark_solution_after_days:
+    default: 14
+    min: 1
+    max: 365
+  remind_mark_solution_last_post_age:
+    default: 180
+    min: 30
+    max: 36500
+  send_solved_pm_first_n_time:
+    default: 3
+    min: 0
+    max: 100
+  send_solved_pm_after_every_n_time:
+    default: 3
+    min: 1
+    max: 100

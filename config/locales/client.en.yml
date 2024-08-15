@@ -1,0 +1,11 @@
+en:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_solved_reminders: "Solved Reminders"
+  js:
+    discourse_solved_reminders:
+      notifications:
+        label: "Solved Notifications"
+        dont_send_accepted_solution_notifications: "Don't send me a notitification PM to recommend similar topics to answer"

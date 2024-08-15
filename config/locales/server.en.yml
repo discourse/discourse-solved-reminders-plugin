@@ -1,0 +1,16 @@
+en:
+  mark_as_solution:
+    title: Mark a post as solution
+    message: |-
+      There has been a reply on topic you posted. Mark a post as solution if it answers your question.
+  answer_similar_questions:
+    title: Congratulations on your accepted solution!
+    message: |-
+      Congrats on your post being marked as a solution! Here are some similar topics that you might be qualified to answer.
+    unsubscribe: "[Click here](%{base_url}/my/preferences/notifications) and disable 'Solved Notifications' if you no longer wish to receive these messages."
+  site_settings:
+    solved_reminders_plugin_enabled: "Enable Solved reminders plugin"
+    remind_mark_solution_after_days: "Remind a user to mark a post as solution n days after last post."
+    remind_mark_solution_last_post_age: "Send reminders only for topics that have last post created in previous n days."
+    send_solved_pm_first_n_time: "Send congratulation PM to user for first n times their post is marked as solution."
+    send_solved_pm_after_every_n_time: "Send a congratulation PM to user after every n time their post is marked as solution."

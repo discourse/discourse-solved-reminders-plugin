@@ -1,0 +1,15 @@
+<div class="control-group follow-notifications">
+  <label class="control-label">{{i18n "discourse_solved_reminders.notifications.label"}}</label>
+
+  <div class="controls">
+    <label class="checkbox-label">
+      {{input
+        type="checkbox"
+        checked=user.custom_fields.dont_send_accepted_solution_notifications
+      }}
+      {{i18n
+        "discourse_solved_reminders.notifications.dont_send_accepted_solution_notifications"
+      }}
+    </label>
+  </div>
+</div>
