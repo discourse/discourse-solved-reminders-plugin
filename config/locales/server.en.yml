@@ -6,7 +6,7 @@ en:
   answer_similar_questions:
     title: Congratulations on your accepted solution!
     message: |-
-      Congrats on your post being marked as a solution! Here are some similar topics that you might be qualified to answer.
+      Congrats on [your post](%{solved_post_url}) being marked as a solution! Here are some similar topics that you might be qualified to answer.
     unsubscribe: "[Click here](%{base_url}/my/preferences/notifications) and disable 'Solved Notifications' if you no longer wish to receive these messages."
   site_settings:
     solved_reminders_plugin_enabled: "Enable Solved reminders plugin"

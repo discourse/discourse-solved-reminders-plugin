@@ -16,6 +16,7 @@ describe Jobs::AnswerSimilarQuestions do
       DiscourseSolved.accept_answer!(post, Discourse.system_user)
       expect { described_class.new.execute({ post_id: post.id }) }.to change { Topic.count }.by(1)
       expect(Topic.last.title).to eq(I18n.t("answer_similar_questions.title"))
+      expect(Topic.last.first_post.raw).to include(I18n.t("answer_similar_questions.message", solved_post_url: "#{Discourse.base_url}#{post.url}"))
     end
   end
 end
