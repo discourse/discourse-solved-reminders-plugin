@@ -21,7 +21,11 @@ module Jobs
         # send a PM to user to recommend similar topics to answer
         if suggested_topics.topics.length > 1 &&
              !!user.custom_fields[SolvedReminders::USER_CUSTOM_FIELD_NAME] == false
-          raw = I18n.t("answer_similar_questions.message", solved_post_url: "#{Discourse.base_url}#{solved_post.url}").dup
+          raw =
+            I18n.t(
+              "answer_similar_questions.message",
+              solved_post_url: "#{Discourse.base_url}#{solved_post.url}",
+            ).dup
           suggested_topics.topics.each { |suggested_topic| raw << "\n\n#{suggested_topic.url}" }
           raw << "\n\n#{I18n.t("answer_similar_questions.unsubscribe", base_url: Discourse.base_url)}"
 
