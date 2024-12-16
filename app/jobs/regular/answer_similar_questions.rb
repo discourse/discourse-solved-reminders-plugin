@@ -25,7 +25,7 @@ module Jobs
             I18n.t(
               "answer_similar_questions.message",
               solved_post_url: "#{Discourse.base_url}#{solved_post.url}",
-            ).dup
+            )
           suggested_topics.topics.each { |suggested_topic| raw << "\n\n#{suggested_topic.url}" }
           raw << "\n\n#{I18n.t("answer_similar_questions.unsubscribe", base_url: Discourse.base_url)}"
 
