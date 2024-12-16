@@ -6,6 +6,7 @@ module Jobs
 
     def execute(_args = nil)
       return false unless SiteSetting.solved_enabled
+      return false unless SiteSetting.solved_reminders_plugin_enabled
       Rails.logger.warn("Running scheduled job to send notifications to mark a post a solution.")
 
       unsolved_topic_ids = []

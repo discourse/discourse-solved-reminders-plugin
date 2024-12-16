@@ -3,7 +3,11 @@
 require "rails_helper"
 
 describe Jobs::AnswerSimilarQuestions do
-  before { SiteSetting.solved_enabled = true }
+  before do
+    SiteSetting.solved_enabled = true
+    SiteSetting.allow_solved_on_all_topics = true
+    SiteSetting.solved_reminders_plugin_enabled = true
+  end
 
   describe "#execute" do
     fab!(:user)

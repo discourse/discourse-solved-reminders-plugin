@@ -4,6 +4,7 @@ module Jobs
   class AnswerSimilarQuestions < ::Jobs::Base
     def execute(args)
       return false unless SiteSetting.solved_enabled
+      return false unless SiteSetting.solved_reminders_plugin_enabled
 
       solved_post = Post.find(args[:post_id])
       user = solved_post.user
