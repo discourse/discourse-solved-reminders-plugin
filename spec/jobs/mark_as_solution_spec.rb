@@ -6,6 +6,7 @@ describe Jobs::MarkAsSolution do
   before do
     SiteSetting.solved_enabled = true
     SiteSetting.allow_solved_on_all_topics = true
+    SiteSetting.solved_reminders_plugin_enabled = true
   end
 
   describe "#execute" do
@@ -24,6 +25,13 @@ describe Jobs::MarkAsSolution do
       before { DiscourseSolved.accept_answer!(post, Discourse.system_user) }
 
       it "should not send the PM to user" do
+        expect { described_class.new.execute({}) }.to not_change { Topic.count }
+      end
+    end
+
+    context "when the plugin is disabled" do
+      it "should not send the PM to user" do
+        SiteSetting.solved_reminders_plugin_enabled = false
         expect { described_class.new.execute({}) }.to not_change { Topic.count }
       end
     end
