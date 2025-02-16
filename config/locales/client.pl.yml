@@ -1,0 +1,11 @@
+pl:
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          discourse_solved_reminders: "Przypomnienia o rozwiązaniu"
+  js:
+    discourse_solved_reminders:
+      notifications:
+        label: "Powiadomienia o rozwiązaniu"
+        dont_send_accepted_solution_notifications: "Nie wysyłaj mi prywatnej wiadomości z powiadomieniem, aby polecać podobne tematy do zamknięcia"
