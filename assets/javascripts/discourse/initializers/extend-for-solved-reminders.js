@@ -1,4 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
+
 const PLUGIN_ID = "discourse-solved-reminders-plugin";
 
 export default apiInitializer("0.11.1", (api) => {
