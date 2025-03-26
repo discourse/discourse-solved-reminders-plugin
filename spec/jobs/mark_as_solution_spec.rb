@@ -16,7 +16,9 @@ describe Jobs::MarkAsSolution do
 
     context "when the topic is not solved" do
       it "should send the PM to user to mark a post as solution" do
-        expect { described_class.new.execute({}) }.to change { Topic.count }.by(1)
+        expect { described_class.new.execute({}) }.to change {
+          Topic.where(archetype: Archetype.private_message).count
+        }.by(1)
         expect(Topic.last.title).to eq(I18n.t("mark_as_solution.title"))
       end
     end
@@ -25,14 +27,18 @@ describe Jobs::MarkAsSolution do
       before { DiscourseSolved.accept_answer!(post, Discourse.system_user) }
 
       it "should not send the PM to user" do
-        expect { described_class.new.execute({}) }.to not_change { Topic.count }
+        expect { described_class.new.execute({}) }.to not_change {
+          Topic.where(archetype: Archetype.private_message).count
+        }
       end
     end
 
     context "when the plugin is disabled" do
       it "should not send the PM to user" do
         SiteSetting.solved_reminders_plugin_enabled = false
-        expect { described_class.new.execute({}) }.to not_change { Topic.count }
+        expect { described_class.new.execute({}) }.to not_change {
+          Topic.where(archetype: Archetype.private_message).count
+        }
       end
     end
   end
