@@ -2,7 +2,7 @@
 
 module Jobs
   class MarkAsSolution < ::Jobs::Scheduled
-    every 14.days
+    every 12.hours
 
     def execute(_args = nil)
       return false unless SiteSetting.solved_enabled
