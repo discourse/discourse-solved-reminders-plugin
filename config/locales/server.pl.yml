@@ -1,0 +1,16 @@
+pl:
+  mark_as_solution:
+    title: Oznacz post jako rozwiązanie
+    message: |-
+      Na temat, który opublikowałeś, pojawiła się odpowiedź. Oznacz post jako rozwiązanie, jeśli odpowiedziała na Twoje pytanie.
+  answer_similar_questions:
+    title: Gratulacje z okazji zaakceptowanego rozwiązania!
+    message: |-
+      Gratulacje, [Twój post](%{solved_post_url}) został oznaczony jako rozwiązanie! Oto kilka podobnych tematów, w których możesz udzielić odpowiedzi.
+    unsubscribe: "[Kliknij tutaj](%{base_url}/my/preferences/notifications), aby wyłączyć 'Solved Notifications', jeśli nie chcesz już otrzymywać tych wiadomości."
+  site_settings:
+    solved_reminders_plugin_enabled: "Włącz wtyczkę przypomnień o rozwiązaniach"
+    remind_mark_solution_after_days: "Przypomnij użytkownikowi, aby oznaczył post jako rozwiązanie n dni po ostatnim poście."
+    remind_mark_solution_last_post_age: "Wysyłaj przypomnienia tylko dla tematów, w których ostatni post został utworzony w ciągu ostatnich n dni."
+    send_solved_pm_first_n_time: "Wyślij gratulacyjną wiadomość prywatną użytkownikowi za pierwsze n przypadków, gdy jego post został oznaczony jako rozwiązanie."
+    send_solved_pm_after_every_n_time: "Wyślij gratulacyjną wiadomość prywatną użytkownikowi po każdym n-tym razie, gdy jego post zostanie oznaczony jako rozwiązanie."
