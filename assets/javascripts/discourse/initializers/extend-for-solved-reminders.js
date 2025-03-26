@@ -1,16 +1,16 @@
+import { action } from "@ember/object";
 import { apiInitializer } from "discourse/lib/api";
 
-const PLUGIN_ID = "discourse-solved-reminders-plugin";
-
 export default apiInitializer("0.11.1", (api) => {
-  api.modifyClass("controller:preferences/notifications", {
-    pluginId: PLUGIN_ID,
-
-    actions: {
-      save() {
-        this.saveAttrNames.push("custom_fields");
-        this._super(...arguments);
-      },
-    },
-  });
+  api.modifyClass(
+    "controller:preferences/notifications",
+    (Superclass) =>
+      class extends Superclass {
+        @action
+        save() {
+          this.saveAttrNames.push("custom_fields");
+          super.save(...arguments);
+        }
+      }
+  );
 });
