@@ -4,7 +4,7 @@ plugins:
     client: true
   remind_mark_solution_after_days:
     default: 14
-    min: 1
+    min: 14
     max: 365
   remind_mark_solution_last_post_age:
     default: 180
