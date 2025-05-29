@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import { classNames, tagName } from "@ember-decorators/component";
-import solutionsNotificationPreferences from "../../components/solutions-notification-preferences";
+import SolutionsNotificationPreferences from "../../components/solutions-notification-preferences";
 
 @tagName("div")
 @classNames(
@@ -12,5 +12,5 @@ export default class SolutionsNotificationPreferencesContainer extends Component
     return context.siteSettings.solved_reminders_plugin_enabled;
   }
 
-  <template>{{solutionsNotificationPreferences user=this.model}}</template>
+  <template><SolutionsNotificationPreferences @user={{this.model}} /></template>
 }
