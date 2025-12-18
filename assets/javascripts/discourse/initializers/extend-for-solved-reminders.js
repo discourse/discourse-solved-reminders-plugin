@@ -1,5 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer((api) => {
-  api.addSaveableCustomFields({ page: "notifications" });
+  api.addSaveableCustomFields("notifications");
 });
