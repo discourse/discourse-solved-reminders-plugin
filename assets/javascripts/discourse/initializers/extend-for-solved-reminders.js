@@ -1,5 +1,11 @@
-import { apiInitializer } from "discourse/lib/api";
+import { withPluginApi } from "discourse/lib/plugin-api";
 
-export default apiInitializer((api) => {
-  api.addSaveableCustomFields("notifications");
-});
+export default {
+  name: "extend-for-solved-reminders",
+
+  initialize() {
+    withPluginApi((api) => {
+      api.addSaveableCustomFields("notifications");
+    });
+  },
+};
