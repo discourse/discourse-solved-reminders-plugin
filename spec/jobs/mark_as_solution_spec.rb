@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 describe Jobs::MarkAsSolution do
   before do
     SiteSetting.solved_enabled = true
