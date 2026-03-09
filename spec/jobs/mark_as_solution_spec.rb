@@ -9,8 +9,10 @@ describe Jobs::MarkAsSolution do
 
   describe "#execute" do
     fab!(:user)
-    fab!(:topic) { Fabricate(:topic, last_post_user_id: user.id, last_posted_at: 170.days.ago) }
-    fab!(:post) { Fabricate(:post, topic: topic, user: user) }
+    fab!(:topic) do
+      Fabricate(:topic_with_op, last_post_user_id: user.id, last_posted_at: 170.days.ago)
+    end
+    fab!(:post) { Fabricate(:post, topic: topic, user: user, post_number: 2) }
 
     context "when the topic is not solved" do
       it "should send the PM to user to mark a post as solution" do
