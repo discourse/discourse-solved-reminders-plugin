@@ -24,7 +24,14 @@ describe Jobs::MarkAsSolution do
     end
 
     context "when the topic is solved" do
-      before { DiscourseSolved.accept_answer!(post, Discourse.system_user) }
+      before do
+        DiscourseSolved::AcceptAnswer.call!(
+          params: {
+            post_id: post.id,
+          },
+          guardian: Discourse.system_user.guardian,
+        )
+      end
 
       it "should not send the PM to user" do
         expect { described_class.new.execute({}) }.to not_change {
