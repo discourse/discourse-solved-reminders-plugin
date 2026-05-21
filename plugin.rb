@@ -13,6 +13,7 @@ enabled_site_setting :solved_reminders_plugin_enabled
 module ::SolvedReminders
   PLUGIN_NAME = "discourse-solved-reminders-plugin".freeze
   USER_CUSTOM_FIELD_NAME = "dont_send_accepted_solution_notifications"
+  MARK_AS_SOLUTION_REMINDER_SENT_AT_FIELD = "solved_reminder_last_sent_at"
 end
 
 require_relative "lib/solved_reminders/engine"

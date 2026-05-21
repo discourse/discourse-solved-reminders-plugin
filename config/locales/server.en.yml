@@ -10,7 +10,8 @@ en:
     unsubscribe: "[Click here](%{base_url}/my/preferences/notifications) and disable 'Solved Notifications' if you no longer wish to receive these messages."
   site_settings:
     solved_reminders_plugin_enabled: "Enable Solved reminders plugin"
-    remind_mark_solution_after_days: "Remind a user to mark a post as solution n days after last post."
+    remind_mark_solution_after_days: "Send the first reminder to mark a post as solution n days after the last post."
+    remind_mark_solution_repeat_after_days: "Send repeat reminders no more than once every n days after a topic has already been reminded."
     remind_mark_solution_last_post_age: "Send reminders only for topics that have last post created in previous n days."
     send_solved_pm_first_n_time: "Send congratulation PM to user for first n times their post is marked as solution."
     send_solved_pm_after_every_n_time: "Send a congratulation PM to user after every n time their post is marked as solution."

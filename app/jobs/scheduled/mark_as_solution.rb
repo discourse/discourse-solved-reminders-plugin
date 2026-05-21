@@ -2,11 +2,13 @@
 
 module Jobs
   class MarkAsSolution < ::Jobs::Scheduled
-    every 14.days
+    every 1.day
 
     def execute(_args = nil)
       return false unless SiteSetting.solved_enabled && SiteSetting.solved_reminders_plugin_enabled
       Rails.logger.warn("Running scheduled job to send notifications to mark a post a solution.")
+
+      reminder_sent_at_field = SolvedReminders::MARK_AS_SOLUTION_REMINDER_SENT_AT_FIELD
 
       base_query =
         Topic
@@ -41,10 +43,20 @@ module Jobs
       end
 
       cutoff_date = SiteSetting.remind_mark_solution_after_days.days.ago
+      repeat_cutoff_date = SiteSetting.remind_mark_solution_repeat_after_days.days.ago
 
       discobot = User.find(-2)
       base_query
         .where("COALESCE(last_posted_at, current_date) < ?", cutoff_date)
+        .where(<<~SQL, reminder_sent_at_field, repeat_cutoff_date)
+            NOT EXISTS (
+               SELECT 1
+                 FROM topic_custom_fields tcf
+                WHERE tcf.topic_id = topics.id
+                  AND tcf.name = ?
+                 AND NULLIF(tcf.value, '')::timestamptz > ?
+             )
+           SQL
         .find_each do |topic|
           PostCreator.create!(
             discobot,
@@ -54,6 +66,7 @@ module Jobs
             target_usernames: [topic.user.username],
             skip_validations: true,
           )
+          topic.upsert_custom_fields(reminder_sent_at_field => Time.zone.now.iso8601)
         end
     end
   end
