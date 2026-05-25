@@ -2,7 +2,7 @@
 
 class SeedExistingMarkSolutionReminderState < ActiveRecord::Migration[8.0]
   def up
-    return if !Migration::Helpers.existing_site?
+    return if Migration::Helpers.new_site?
 
     # Use the old 14-day floor so existing active sites do not resend reminders
     # for topics the previous scheduled job may have already touched.
