@@ -5,8 +5,7 @@ module Jobs
     every 1.day
 
     def execute(_args = nil)
-      return false unless SiteSetting.solved_enabled && SiteSetting.solved_reminders_plugin_enabled
-      Rails.logger.warn("Running scheduled job to send notifications to mark a post a solution.")
+      return if !SiteSetting.solved_enabled || !SiteSetting.solved_reminders_plugin_enabled
 
       reminder_sent_at_field = SolvedReminders::MARK_AS_SOLUTION_REMINDER_SENT_AT_FIELD
 
@@ -23,9 +22,10 @@ module Jobs
 
       if !SiteSetting.allow_solved_on_all_topics
         category_ids =
-          CategoryCustomField.where(name: "enable_accepted_answers", value: "true").select(
-            :category_id,
-          )
+          CategoryCustomField.where(
+            name: DiscourseSolved::ENABLE_ACCEPTED_ANSWERS_CUSTOM_FIELD,
+            value: "true",
+          ).select(:category_id)
 
         tag_topic_ids =
           if SiteSetting.enable_solved_tags.present?
@@ -45,7 +45,7 @@ module Jobs
       cutoff_date = SiteSetting.remind_mark_solution_after_days.days.ago
       repeat_cutoff_date = SiteSetting.remind_mark_solution_repeat_after_days.days.ago
 
-      discobot = User.find(-2)
+      sent_at = Time.zone.now.iso8601
       base_query
         .where("COALESCE(last_posted_at, current_date) < ?", cutoff_date)
         .where(<<~SQL, reminder_sent_at_field, repeat_cutoff_date)
@@ -57,16 +57,17 @@ module Jobs
                  AND NULLIF(tcf.value, '')::timestamptz > ?
              )
            SQL
+        .preload(:user)
         .find_each do |topic|
           PostCreator.create!(
-            discobot,
+            Discourse.system_user,
             title: I18n.t("mark_as_solution.title"),
             raw: "#{I18n.t("mark_as_solution.message")}\n\n#{topic.url}",
             archetype: Archetype.private_message,
             target_usernames: [topic.user.username],
             skip_validations: true,
           )
-          topic.upsert_custom_fields(reminder_sent_at_field => Time.zone.now.iso8601)
+          topic.upsert_custom_fields(reminder_sent_at_field => sent_at)
         end
     end
   end

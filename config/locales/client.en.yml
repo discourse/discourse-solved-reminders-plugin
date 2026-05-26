@@ -8,4 +8,4 @@ en:
     discourse_solved_reminders:
       notifications:
         label: "Solved Notifications"
-        dont_send_accepted_solution_notifications: "Don't send me a notitification PM to recommend similar topics to answer"
+        dont_send_accepted_solution_notifications: "Don't send me private messages recommending similar topics to answer"
