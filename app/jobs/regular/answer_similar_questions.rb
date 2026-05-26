@@ -3,43 +3,43 @@
 module Jobs
   class AnswerSimilarQuestions < ::Jobs::Base
     def execute(args)
-      return false unless SiteSetting.solved_enabled
-      return false unless SiteSetting.solved_reminders_plugin_enabled
+      return if !SiteSetting.solved_enabled || !SiteSetting.solved_reminders_plugin_enabled
 
-      solved_post = Post.find(args[:post_id])
+      solved_post = Post.find_by(id: args[:post_id])
+      return if solved_post.blank?
+
       user = solved_post.user
-      guardian = Guardian.new(Discourse.system_user)
-      summary = UserSummary.new(user, guardian)
-      solved_count = summary.solved_count
+      return if user.custom_fields[SolvedReminders::USER_CUSTOM_FIELD_NAME]
 
-      if (
-           SiteSetting.send_solved_pm_first_n_time >= solved_count ||
-             (solved_count % SiteSetting.send_solved_pm_after_every_n_time) == 0
-         )
-        topic = solved_post.topic
-        suggested_topics = TopicQuery.new(user).list_suggested_for(topic)
+      solved_count = DiscourseSolved::Queries.solved_count(user.id)
+      return if !send_similar_questions_message?(solved_count)
 
-        # send a PM to user to recommend similar topics to answer
-        if suggested_topics.topics.length > 1 &&
-             !!user.custom_fields[SolvedReminders::USER_CUSTOM_FIELD_NAME] == false
-          raw =
-            I18n.t(
-              "answer_similar_questions.message",
-              solved_post_url: "#{Discourse.base_url}#{solved_post.url}",
-            )
-          suggested_topics.topics.each { |suggested_topic| raw << "\n\n#{suggested_topic.url}" }
-          raw << "\n\n#{I18n.t("answer_similar_questions.unsubscribe", base_url: Discourse.base_url)}"
+      suggested_topics = TopicQuery.new(user).list_suggested_for(solved_post.topic)&.topics
+      return if suggested_topics.blank? || suggested_topics.one?
 
-          PostCreator.create!(
-            User.find(-2),
-            title: I18n.t("answer_similar_questions.title"),
-            raw: raw,
-            archetype: Archetype.private_message,
-            target_usernames: [user.username],
-            skip_validations: true,
-          )
-        end
-      end
+      raw =
+        I18n.t(
+          "answer_similar_questions.message",
+          solved_post_url: "#{Discourse.base_url}#{solved_post.url}",
+        )
+      suggested_topics.each { |suggested_topic| raw << "\n\n#{suggested_topic.url}" }
+      raw << "\n\n#{I18n.t("answer_similar_questions.unsubscribe", base_url: Discourse.base_url)}"
+
+      PostCreator.create!(
+        Discourse.system_user,
+        title: I18n.t("answer_similar_questions.title"),
+        raw: raw,
+        archetype: Archetype.private_message,
+        target_usernames: [user.username],
+        skip_validations: true,
+      )
+    end
+
+    private
+
+    def send_similar_questions_message?(solved_count)
+      solved_count <= SiteSetting.send_solved_pm_first_n_time ||
+        (solved_count % SiteSetting.send_solved_pm_after_every_n_time) == 0
     end
   end
 end

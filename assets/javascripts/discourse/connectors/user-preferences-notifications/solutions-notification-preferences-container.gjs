@@ -1,17 +1,24 @@
-/* eslint-disable ember/no-classic-components, ember/require-tagless-components */
-import Component from "@ember/component";
-import { classNames, tagName } from "@ember-decorators/component";
-import SolutionsNotificationPreferences from "../../components/solutions-notification-preferences";
+import Component from "@glimmer/component";
+import PreferenceCheckbox from "discourse/components/preference-checkbox";
+import { i18n } from "discourse-i18n";
 
-@tagName("div")
-@classNames(
-  "user-preferences-notifications-outlet",
-  "solutions-notification-preferences-container"
-)
 export default class SolutionsNotificationPreferencesContainer extends Component {
-  static shouldRender(_, context) {
-    return context.siteSettings.solved_reminders_plugin_enabled;
+  static shouldRender(_args, { siteSettings }) {
+    return siteSettings.solved_reminders_plugin_enabled;
   }
 
-  <template><SolutionsNotificationPreferences @user={{this.model}} /></template>
+  <template>
+    <div class="control-group solved-reminders-notifications">
+      <label class="control-label">{{i18n
+          "discourse_solved_reminders.notifications.label"
+        }}</label>
+
+      <PreferenceCheckbox
+        @labelKey="discourse_solved_reminders.notifications.dont_send_accepted_solution_notifications"
+        @checked={{@outletArgs.model.custom_fields.dont_send_accepted_solution_notifications}}
+        data-setting-name="user-dont-send-accepted-solution-notifications"
+        class="pref-dont-send-accepted-solution-notifications"
+      />
+    </div>
+  </template>
 }
